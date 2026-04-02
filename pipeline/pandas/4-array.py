@@ -5,6 +5,6 @@
 def array(df):
     """ array """
     df = df[['High', 'Close']]
-    df = df.bottom(10)
-    df = df.to_numpy
+    df = df.tail(10)
+    df = df.to_numpy()
     return df
