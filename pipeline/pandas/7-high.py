@@ -2,6 +2,6 @@
 """ high """
 
 
-def flip_switch(df):
+def high(df):
     """ high """
     return df.sort_values(by='High', ascending=False)
