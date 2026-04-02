@@ -4,4 +4,4 @@
 
 def flip_switch(df):
     """ high """
-    return df.sort_values('High', ascending=False)
+    return df.sort_values(by='High', ascending=False)
