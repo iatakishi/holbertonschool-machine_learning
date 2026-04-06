@@ -13,7 +13,7 @@ def poly_derivative(poly):
     for i in range(1, len(poly)):
         new_power.append(i * poly[i])
 
-    # 3. If the result is empty (meaning the original was a constant), return [0]
+    # 3. If the result is empty, return [0]
     if not new_power:
         return [0]
 
