@@ -16,7 +16,7 @@ def bars():
     plt.figure(figsize=(6.4, 4.8))
     plt.bar(x, apples, label='apples', width=0.5, color='red')
     plt.bar(x, bananas, bottom=apples,
-            label='bananas',width=0.5, color='yellow')
+            label='bananas', width=0.5, color='yellow')
     plt.bar(x, oranges, bottom=apples+bananas,
             label='oranges', width=0.5, color='#ff8000')
     plt.bar(x, peaches, bottom=apples+bananas+oranges,
