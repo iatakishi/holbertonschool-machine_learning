@@ -17,7 +17,7 @@ def bars():
     plt.bar(x, apples, label='apples', width=0.5, color='red')
     plt.bar(x, bananas, bottom=apples, label='bananas', width=0.5, color='yellow')
     plt.bar(x, oranges, bottom=apples+bananas, label='oranges', width=0.5, color='#ff8000')
-    plt.bar(x, peaches, bottom=apples+bananas+oranges, label='peaches', width=0.5, color='ffe5b4')
+    plt.bar(x, peaches, bottom=apples+bananas+oranges, label='peaches', width=0.5, color='#ffe5b4')
     plt.title('Number of Fruit per Person')
     plt.ylabel('Quantity of Fruit')
     plt.ylim(0, 80)
