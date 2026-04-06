@@ -8,7 +8,7 @@ def bars():
     """ bars """
     np.random.seed(5)
     fruit = np.random.randint(0, 20, (4,3))
-    x = ['Farah', 'Fred', 'Felicia']
+    x = ['Farrah', 'Fred', 'Felicia']
     apples = fruit[0]
     bananas = fruit[1]
     oranges = fruit[2]
