@@ -3,6 +3,7 @@
 
 
 def poly_integral(poly, C=0):
+    """ integrate """
     # Validate inputs
     if not isinstance(poly, list) or len(poly) == 0:
         return None
