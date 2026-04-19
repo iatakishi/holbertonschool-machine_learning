@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-""" matrix shape """
+""" anything """
 
 
 def matrix_shape(matrix):
-        """ matrix shape """
-        shape = []
-        while isinstance(matrix, list):
-                shape.append(len(matrix))
-                matrix = matrix[0]
-        return shape
+    """ anything """
+    shape = []
+    while isinstance(matrix, list):
+        shape.append(len(matrix))
+        matrix = matrix[0]
+    return shape
