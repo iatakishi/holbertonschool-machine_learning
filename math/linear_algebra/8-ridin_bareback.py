@@ -8,7 +8,8 @@ def mat_mul(mat1, mat2):
         return None
 
     # Transpose mat2 to easily access columns as rows
-    mat2_t = [[mat2[j][i] for j in range(len(mat2))] for i in range(len(mat2[0]))]
+    mat2_t = [[mat2[j][i] for j in range(len(mat2))]
+              for i in range(len(mat2[0]))]
 
     result = []
     for row1 in mat1:
