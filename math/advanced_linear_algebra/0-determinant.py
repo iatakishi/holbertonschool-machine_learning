@@ -5,7 +5,8 @@
 def determinant(matrix):
     """Calculates the determinant of a matrix"""
     # Validation: must be a list of lists
-    if not isinstance(matrix, list) or not matrix or not all(isinstance(row, list) for row in matrix):
+    if (not isinstance(matrix, list) or not matrix
+            or not all(isinstance(row, list) for row in matrix)):
         raise TypeError("matrix must be a list of lists")
 
     n = len(matrix)
