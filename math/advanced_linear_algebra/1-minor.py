@@ -34,7 +34,8 @@ def minor(matrix):
     for i in range(n):
         for j in range(n):
             # Create submatrix by removing row i and column j
-            sub_matrix = [row[:j] + row[j + 1:] for row in (matrix[:i] + matrix[i + 1:])]
+            sub_matrix = [row[:j] + row[j + 1:] for row
+                          in (matrix[:i] + matrix[i + 1:])]
             minors[i][j] = determinant(sub_matrix)
 
     return minors
