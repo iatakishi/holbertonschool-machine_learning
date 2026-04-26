@@ -5,7 +5,8 @@
 def cofactor(matrix):
     """Calculates the cofactor matrix of a matrix"""
     # Validation: must be a non-empty list of lists
-    if type(matrix) is not list or len(matrix) == 0 or not all(type(row) is list for row in matrix):
+    if (type(matrix) is not list or len(matrix) == 0
+            or not all(type(row) is list for row in matrix)):
         raise TypeError("matrix must be a list of lists")
 
     n = len(matrix)
@@ -33,7 +34,8 @@ def cofactor(matrix):
     for i in range(n):
         for j in range(n):
             # Create submatrix by removing row i and column j
-            sub_matrix = [row[:j] + row[j + 1:] for k, row in enumerate(matrix) if k != i]
+            sub_matrix = [row[:j] + row[j + 1:] for k, row
+                          in enumerate(matrix) if k != i]
             minor = determinant(sub_matrix)
             # Apply checkerboard sign pattern (-1)^(i+j)
             cof_matrix[i][j] = ((-1) ** (i + j)) * minor
