@@ -12,17 +12,20 @@ def definiteness(matrix):
             or matrix.shape[0] != matrix.shape[1]):
         return None
 
+    # Definiteness is only defined for symmetric matrices
+    if not np.allclose(matrix, matrix.T):
+        return None
+
     # Compute eigenvalues
     eigs = np.linalg.eigvals(matrix)
 
-    # Definiteness is only defined for matrices with real eigenvalues
+    # Safety check: eigenvalues should be real for symmetric matrices
     if not np.allclose(eigs.imag, 0, atol=1e-8):
         return None
 
     eigs = np.real(eigs)
     tol = 1e-8
 
-    # Boolean masks for eigenvalue signs
     pos = eigs > tol
     neg = eigs < -tol
     zero = np.isclose(eigs, 0, atol=tol)
