@@ -38,3 +38,11 @@ class Normal:
         P = ((1 / (self.stddev * (2 * pi) ** 0.5)) *
              e ** (-(x - self.mean) ** 2 / (2 * self.stddev ** 2)))
         return P
+
+    def cdf(self, x):
+        pi = 3.1415926536
+        def erf(x):
+            erf = (2 / (pi ** 0.5)) * (x - (x ** 3 / 3) + (x ** 5 / 10) - (x ** 7 / 42) + (x ** 9 / 216))
+            return erf
+        P = 0.5 * (1 + erf((x - self.mean) / (self.stddev * 2 ** 0.5)))
+        return P
