@@ -40,3 +40,11 @@ class Binomial:
         combination = (factorial(self.n) /
                        (factorial(k) * factorial(self.n - k)))
         return combination * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+
+    def cdf(self, k):
+        """ cdf """
+        if not isinstance(k, int):
+            k = int(k)
+        if k < 0 or k > self.n:
+            return 0
+        return sum(self.pmf(i) for i in range(0, k + 1))
