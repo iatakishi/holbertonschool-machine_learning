@@ -37,7 +37,6 @@ class Binomial:
             for i in range(1, n + 1):
                 f *= i
             return f
-
-        combination = factorial(self.n) / (factorial(k) * factorial(self.n - k))
-
+        combination = (factorial(self.n) /
+                       (factorial(k) * factorial(self.n - k)))
         return combination * (self.p ** k) * ((1 - self.p) ** (self.n - k))
