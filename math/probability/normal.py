@@ -46,7 +46,9 @@ class Normal:
         def erf(x):
             """ erf """
             erf = (2 / (pi ** 0.5)) * (x - (x ** 3 / 3) +
-                                       (x ** 5 / 10) - (x ** 7 / 42) + (x ** 9 / 216))
+                                       (x ** 5 / 10) -
+                                       (x ** 7 / 42) +
+                                       (x ** 9 / 216))
             return erf
         P = 0.5 * (1 + erf((x - self.mean) / (self.stddev * 2 ** 0.5)))
         return P
