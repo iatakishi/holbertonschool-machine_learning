@@ -32,6 +32,7 @@ class Normal:
         return x
 
     def pdf(self, x):
+        """ pdf """
         pi = 3.1415926536
         e = 2.7182818285
         P = ((1 / (self.stddev * (2 * pi) ** 0.5)) *
