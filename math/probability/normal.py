@@ -42,6 +42,7 @@ class Normal:
     def cdf(self, x):
         """ cdf """
         pi = 3.1415926536
+
         def erf(x):
             """ erf """
             erf = (2 / (pi ** 0.5)) * (x - (x ** 3 / 3) +
