@@ -13,7 +13,7 @@ class Binomial:
             mean = sum(data) / len(data)
             variance = sum((i - mean) ** 2 for i in data) / len(data)
             p = 1 - (variance / mean)
-            n = round (mean / p)
+            n = round(mean / p)
             p = mean / n
             self.n = n
             self.p = p
