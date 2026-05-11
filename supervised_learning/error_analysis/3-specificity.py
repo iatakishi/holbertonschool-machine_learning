@@ -4,6 +4,7 @@ import numpy as np
 
 
 def specificity(confusion):
+    """ specificity """
     # True Positives: diagonal elements
     tp = np.diag(confusion)
 
