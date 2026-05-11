@@ -17,6 +17,7 @@ class Node:
         self.depth = depth
 
     def max_depth_below(self):
+        """ max depth below """
         return max(self.left_child.max_depth_below(),
                    self.right_child.max_depth_below())
 
