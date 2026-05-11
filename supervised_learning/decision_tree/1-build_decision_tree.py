@@ -21,6 +21,9 @@ class Node:
         return max(self.left_child.max_depth_below(),
                    self.right_child.max_depth_below())
 
+    def count_nodes_below(self, only_leaves=False):
+        return sum(self.left_child.max_depth_below(),
+                   self.right_child.max_depth_below())
 
 class Leaf(Node):
     """ leaf """
