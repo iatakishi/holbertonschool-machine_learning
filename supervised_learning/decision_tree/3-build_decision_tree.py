@@ -30,7 +30,7 @@ class Node:
     def left_child_add_prefix(self, text):
         """ left child add prefix """
         lines = text.split("\n")
-        new_text = "    +---> " + lines[0] + "\n"
+        new_text = "    +---> " + lines[0].lstrip("-> ") + "\n"
         for x in lines[1:]:
             new_text += ("    |  " + x) + "\n"
         return new_text
@@ -38,7 +38,7 @@ class Node:
     def right_child_add_prefix(self, text):
         """ right child add prefix """
         lines = text.split("\n")
-        new_text = "    +---> " + lines[0] + "\n"
+        new_text = "    +---> " + lines[0].lstrip("-> ") + "\n"
         for x in lines[1:]:
             new_text += ("       " + x) + "\n"
         return new_text
@@ -76,7 +76,7 @@ class Leaf(Node):
 
     def __str__(self):
         """ str """
-        return f"leaf [value={self.value}]"
+        return f"-> leaf [value={self.value}]"
 
     def get_leaves_below(self):
         """ get leaves below """
