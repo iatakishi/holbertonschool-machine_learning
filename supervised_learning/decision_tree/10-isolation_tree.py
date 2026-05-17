@@ -98,18 +98,6 @@ class Isolation_Random_Tree():
 
     def fit_node(self, node):
         """ fit node """
-        sub = self.explanatory[node.sub_population]
-        if (node.depth + 1 >= self.max_depth
-                or np.sum(node.sub_population) <= 1
-                or np.all(sub == sub[0])):
-            node.feature = 0
-            node.threshold = sub[0, 0]
-            node.left_child = self.get_leaf_child(
-                node, node.sub_population)
-            node.right_child = self.get_leaf_child(
-                node, node.sub_population)
-            return
-
         node.feature, node.threshold = (
             self.random_split_criterion(node))
 
