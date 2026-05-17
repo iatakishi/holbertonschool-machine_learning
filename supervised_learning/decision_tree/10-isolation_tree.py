@@ -45,17 +45,18 @@ class Isolation_Random_Tree():
         leaves = self.get_leaves()
         for leaf in leaves:
             leaf.update_indicator()
-        self.predict = lambda A: np.array([
-            leaves[
-                np.argmax(
-                    np.array([
-                        leaf.indicator(A)
-                        for leaf in leaves
-                    ])[:, i]
-                )
-            ].depth
-            for i in range(A.shape[0])
-        ])
+
+        def predict_one(A):
+            indicators = np.array(
+                [leaf.indicator(A) for leaf in leaves])
+            return np.array([
+                leaves[
+                    np.argmax(indicators[:, i])
+                ].depth
+                for i in range(A.shape[0])
+            ])
+
+        self.predict = predict_one
 
     def np_extrema(self, arr):
         """ np extrema """
@@ -78,7 +79,7 @@ class Isolation_Random_Tree():
             diff = feature_max - feature_min
         x = self.rng.uniform()
         threshold = (
-                (1 - x) * feature_min + x * feature_max)
+            (1 - x) * feature_min + x * feature_max)
         return feature, threshold
 
     def get_leaf_child(self, node, sub_population):
@@ -97,6 +98,18 @@ class Isolation_Random_Tree():
 
     def fit_node(self, node):
         """ fit node """
+        sub = self.explanatory[node.sub_population]
+        if (node.depth + 1 >= self.max_depth
+                or np.sum(node.sub_population) <= 1
+                or np.all(sub == sub[0])):
+            node.feature = 0
+            node.threshold = sub[0, 0]
+            node.left_child = self.get_leaf_child(
+                node, node.sub_population)
+            node.right_child = self.get_leaf_child(
+                node, node.sub_population)
+            return
+
         node.feature, node.threshold = (
             self.random_split_criterion(node))
 
@@ -109,9 +122,7 @@ class Isolation_Random_Tree():
 
         is_left_leaf = (
             np.sum(left_population) <= 1
-            or node.depth + 1 >= self.max_depth
-            or np.sum(left_population) == np.sum(
-                node.sub_population))
+            or node.depth + 1 >= self.max_depth)
 
         if is_left_leaf:
             node.left_child = self.get_leaf_child(
@@ -123,9 +134,7 @@ class Isolation_Random_Tree():
 
         is_right_leaf = (
             np.sum(right_population) <= 1
-            or node.depth + 1 >= self.max_depth
-            or np.sum(right_population) == np.sum(
-                node.sub_population))
+            or node.depth + 1 >= self.max_depth)
 
         if is_right_leaf:
             node.right_child = self.get_leaf_child(
