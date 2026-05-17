@@ -71,6 +71,12 @@ class Isolation_Random_Tree():
                 self.explanatory[
                     :, feature][node.sub_population])
             diff = feature_max - feature_min
+            if np.all(
+                self.explanatory[node.sub_population]
+                == self.explanatory[
+                    node.sub_population][0]
+            ):
+                break
         x = self.rng.uniform()
         threshold = (
             (1 - x) * feature_min + x * feature_max)
@@ -104,7 +110,9 @@ class Isolation_Random_Tree():
 
         is_left_leaf = (
             np.sum(left_population) <= 1
-            or node.depth + 1 >= self.max_depth)
+            or node.depth + 1 >= self.max_depth
+            or np.sum(left_population) == np.sum(
+                node.sub_population))
 
         if is_left_leaf:
             node.left_child = self.get_leaf_child(
@@ -116,7 +124,9 @@ class Isolation_Random_Tree():
 
         is_right_leaf = (
             np.sum(right_population) <= 1
-            or node.depth + 1 >= self.max_depth)
+            or node.depth + 1 >= self.max_depth
+            or np.sum(right_population) == np.sum(
+                node.sub_population))
 
         if is_right_leaf:
             node.right_child = self.get_leaf_child(
