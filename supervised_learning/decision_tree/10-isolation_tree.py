@@ -64,6 +64,11 @@ class Isolation_Random_Tree():
     def random_split_criterion(self, node):
         """ random split criterion """
         diff = 0
+        sub = self.explanatory[node.sub_population]
+        if np.all(sub == sub[0]):
+            feature = self.rng.integers(
+                0, self.explanatory.shape[1])
+            return feature, sub[0, feature]
         while diff == 0:
             feature = self.rng.integers(
                 0, self.explanatory.shape[1])
@@ -71,15 +76,9 @@ class Isolation_Random_Tree():
                 self.explanatory[
                     :, feature][node.sub_population])
             diff = feature_max - feature_min
-            if np.all(
-                self.explanatory[node.sub_population]
-                == self.explanatory[
-                    node.sub_population][0]
-            ):
-                break
         x = self.rng.uniform()
         threshold = (
-            (1 - x) * feature_min + x * feature_max)
+                (1 - x) * feature_min + x * feature_max)
         return feature, threshold
 
     def get_leaf_child(self, node, sub_population):
