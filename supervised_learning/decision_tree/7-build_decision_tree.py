@@ -182,7 +182,6 @@ class Decision_Tree():
             for i in range(A.shape[0])
         ])
 
-
     def fit(self, explanatory, target, verbose=0):
         """ fit """
         if self.split_criterion == "random":
