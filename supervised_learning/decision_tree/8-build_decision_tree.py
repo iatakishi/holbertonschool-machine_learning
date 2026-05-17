@@ -287,7 +287,8 @@ class Decision_Tree():
         n_classes = np.max(classes) + 1
 
         Left_F = (
-                         feature_values[:, np.newaxis] > thresholds[np.newaxis, :]
+                         feature_values
+                         [:, np.newaxis] > thresholds[np.newaxis, :]
                  )[:, :, np.newaxis] & (
                          classes[:, np.newaxis, np.newaxis]
                          == np.arange(n_classes)[np.newaxis, np.newaxis, :]
