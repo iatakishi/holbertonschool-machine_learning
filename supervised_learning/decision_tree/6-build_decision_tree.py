@@ -177,6 +177,7 @@ class Decision_Tree():
         for leaf in leaves:
             leaf.update_indicator()
         self.predict = lambda A: np.array([
-            leaves[np.argmax(np.array([leaf.indicator(A) for leaf in leaves])[:, i])].value
+            leaves[np.argmax(np.array([leaf.indicator(A)
+                                       for leaf in leaves])[:, i])].value
             for i in range(A.shape[0])
         ])
