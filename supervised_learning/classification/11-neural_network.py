@@ -5,10 +5,12 @@ import numpy as np
 
 # Neural network with one hidden layer and cost calculation
 class NeuralNetwork:
-    """Defines a neural network with one hidden layer performing binary classification"""
+    """Defines a neural network with one hidden
+    layer performing binary classification"""
 
     def __init__(self, nx, nodes):
-        """Initialize neural network with nx inputs and nodes in hidden layer"""
+        """Initialize neural network
+        with nx inputs and nodes in hidden layer"""
         if not isinstance(nx, int):
             raise TypeError("nx must be an integer")
         if nx < 1:
