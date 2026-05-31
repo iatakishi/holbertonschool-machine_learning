@@ -12,7 +12,7 @@ def train_model(network, data, labels, batch_size, epochs,
     callbacks = []
     if early_stopping and validation_data:
         callbacks.append(K.callbacks.EarlyStopping(monitor='val_loss',
-                                                    patience=patience))
+                                                   patience=patience))
     return network.fit(data, labels,
                        batch_size=batch_size,
                        epochs=epochs,
