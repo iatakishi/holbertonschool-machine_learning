@@ -7,7 +7,8 @@ import numpy as np
 
 def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
     """
-    Updates the weights of a neural network with Dropout using gradient descent.
+    Updates the weights of a neural
+    network with Dropout using gradient descent.
 
     Arguments:
     Y -- one-hot numpy.ndarray of shape (classes, m) with correct labels
