@@ -3,21 +3,15 @@
 import tensorflow as tf
 
 
-def l2_reg_create_layer(prev, n, activation, lambtha):
+def l2_reg_cost(cost, model):
     """
-    Creates a neural network layer in tensorflow that includes L2 regularization.
+    Calculates the cost of a neural network with L2 regularization.
 
     Arguments:
-    prev -- tensor containing the output of the previous layer
-    n -- number of nodes the new layer should contain
-    activation -- activation function that should be used on the layer
-    lambtha -- L2 regularization parameter
+    cost -- tensor containing the cost of the network without L2 regularization
+    model -- tensorflow model
 
     Returns:
-    the output of the new layer
+    tensor containing the total cost of the network including L2 regularization
     """
-    return tf.keras.layers.Dense(
-        units=n,
-        activation=activation,
-        kernel_regularizer=tf.keras.regularizers.l2(lambtha)
-    )(prev)
+    return cost + tf.add_n(model.losses)
