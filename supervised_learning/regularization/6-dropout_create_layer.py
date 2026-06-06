@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Module for creating a layer with dropout in TensorFlow."""
+"""Module for creating a layer with dropout."""
 
 import tensorflow as tf
 
@@ -19,13 +19,7 @@ def dropout_create_layer(prev, n, activation, keep_prob, training=True):
     Returns:
     the output of the new layer
     """
-    dense = tf.keras.layers.Dense(
-        units=n,
-        activation=activation
-    )
-    output = dense(prev)
+    dense = tf.keras.layers.Dense(units=n, activation=activation)
+    dropout = tf.keras.layers.Dropout(rate=1 - keep_prob)
 
-    if training:
-        output = tf.nn.dropout(output, rate=1 - keep_prob)
-
-    return output
+    return dropout(dense(prev), training=training)
