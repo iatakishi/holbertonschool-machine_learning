@@ -20,6 +20,6 @@ def l2_reg_create_layer(prev, n, activation, lambtha):
         units=n,
         activation=activation,
         kernel_regularizer=regularizer,
-        kernel_initializer='he_normal'
+        kernel_initializer='glorot_normal'
     )
     return layer(prev)
