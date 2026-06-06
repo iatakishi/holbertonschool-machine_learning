@@ -14,7 +14,7 @@ def l2_reg_cost(cost, model):
         tensor containing the total cost for each layer accounting for L2
     """
     l2_costs = [
-        cost + layer.losses
+        cost + tf.reduce_sum(layer.losses)
         for layer in model.layers
         if layer.losses
     ]
