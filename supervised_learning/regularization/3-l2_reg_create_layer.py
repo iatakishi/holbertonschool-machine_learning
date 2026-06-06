@@ -20,8 +20,6 @@ def l2_reg_create_layer(prev, n, activation, lambtha):
         units=n,
         activation=activation,
         kernel_regularizer=regularizer,
-        kernel_initializer=tf.keras.initializers.VarianceScaling(
-            scale=2.0, mode='fan_avg', distribution='uniform'
-        )
+        kernel_initializer='glorot_uniform'
     )
     return layer(prev)
