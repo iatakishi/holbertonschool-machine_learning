@@ -14,8 +14,8 @@ def dropout_create_layer(prev, n, activation, keep_prob, training=True):
     n -- number of nodes the new layer should contain
     activation -- activation function for the new layer
     keep_prob -- probability that a node will be kept
-    training -- boolean indicating
-    if the model is in training mode
+    training -- boolean indicating i
+    f the model is in training mode
 
     Returns:
     the output of the new layer
@@ -24,7 +24,11 @@ def dropout_create_layer(prev, n, activation, keep_prob, training=True):
         units=n,
         activation=activation
     )
-    dropout = tf.keras.layers.Dropout(
-        rate=1 - keep_prob
-    )
-    return dropout(dense(prev), training=training)
+    output = dense(prev)
+
+    if training:
+        mask = tf.random.uniform(shape=output.shape) < keep_prob
+        mask = tf.cast(mask, dtype=tf.float32)
+        output = output * mask / keep_prob
+
+    return output
