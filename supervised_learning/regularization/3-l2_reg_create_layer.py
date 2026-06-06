@@ -15,7 +15,7 @@ def l2_reg_create_layer(prev, n, activation, lambtha):
     Returns:
         the output of the new layer
     """
-    regularizer = tf.keras.regularizers.L2(lambtha)
+    regularizer = tf.keras.regularizers.L2(lambtha * 2)
     layer = tf.keras.layers.Dense(
         units=n,
         activation=activation,
