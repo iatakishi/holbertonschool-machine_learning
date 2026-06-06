@@ -1,40 +1,32 @@
 #!/usr/bin/env python3
-"""Module for forward propagation with dropout."""
-import numpy as np
+"""
+Creates a neural network layer in TensorFlow that includes L2 regularization.
+"""
+import tensorflow as tf
 
 
-def dropout_forward_prop(X, weights, L, keep_prob):
+def l2_reg_create_layer(prev, n, activation, lambtha):
     """
-    Conducts forward propagation using Dropout.
+    Creates a neural network layer with L2 regularization:
 
-    Arguments:
-    X -- numpy.ndarray of shape (nx, m) containing the input data
-    weights -- dictionary of the weights and biases of the neural network
-    L -- number of layers in the network
-    keep_prob -- probability that a node will be kept
+    * prev: A tensor containing the output of the previous layer
+    * n: The number of nodes the new layer should contain
+    * activation: The activation function to be used on the layer
+    * lambtha: The L2 regularization parameter
 
-    Returns:
-    cache -- dictionary containing outputs and dropout masks
+    Returns: The output of the new layer
     """
-    cache = {}
-    cache['A0'] = X
+    # Use VarianceScaling to match the expected weight generation and L2 cost
+    initializer = tf.keras.initializers.VarianceScaling(scale=2.0, mode="fan_avg")
 
-    for i in range(1, L + 1):
-        W = weights['W' + str(i)]
-        b = weights['b' + str(i)]
-        A_prev = cache['A' + str(i - 1)]
+    # Define the L2 regularizer using the provided lambtha
+    regularizer = tf.keras.regularizers.L2(l2=lambtha)
 
-        Z = np.dot(W, A_prev) + b
+    # Create the dense layer with the initializer and regularizer
+    layer = tf.keras.layers.Dense(units=n,
+                                  activation=activation,
+                                  kernel_initializer=initializer,
+                                  kernel_regularizer=regularizer)
 
-        if i == L:
-            t = np.exp(Z - np.max(Z, axis=0, keepdims=True))
-            cache['A' + str(i)] = t / np.sum(t, axis=0, keepdims=True)
-        else:
-            A = np.tanh(Z)
-            D = np.random.binomial(1, keep_prob, size=A.shape)
-            A = A * D
-            A = A / keep_prob
-            cache['A' + str(i)] = A
-            cache['D' + str(i)] = D
-
-    return cache
+    # Return the layer called on the previous output
+    return layer(prev)
