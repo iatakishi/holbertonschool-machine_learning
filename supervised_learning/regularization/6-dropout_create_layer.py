@@ -18,7 +18,8 @@ def dropout_create_layer(prev, n, activation, keep_prob, training=True):
     Returns: The output of the new layer
     """
     # Standard initialization for Holberton ML tasks
-    initializer = tf.keras.initializers.VarianceScaling(scale=2.0, mode="fan_avg")
+    initializer = (
+        tf.keras.initializers.VarianceScaling(scale=2.0, mode="fan_avg"))
 
     # Create the dense layer
     dense_layer = tf.keras.layers.Dense(units=n,
@@ -28,7 +29,8 @@ def dropout_create_layer(prev, n, activation, keep_prob, training=True):
     # Generate the output from the dense layer
     layer_output = dense_layer(prev)
 
-    # Create the Dropout layer. Note: Keras Dropout expects 'rate' (fraction to drop),
+    # Create the Dropout layer. Note:
+    # Keras Dropout expects 'rate' (fraction to drop),
     # so we must convert keep_prob to rate by subtracting it from 1.0.
     dropout_layer = tf.keras.layers.Dropout(rate=1.0 - keep_prob)
 
