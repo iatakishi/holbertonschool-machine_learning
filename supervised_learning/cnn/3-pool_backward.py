@@ -45,7 +45,8 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
                                               h_start:h_end, f]
                         # Maksimum elementin yerini təyin edən maska
                         mask = (a_prev_slice == np.max(a_prev_slice))
-                        # Qradiyent yalnız maksimum dəyərin olduğu yerə ötürülür
+                        # Qradiyent yalnız maksimum
+                        # dəyərin olduğu yerə ötürülür
                         dA_prev[i, v_start:v_end, h_start:h_end, f] += (
                             mask * dA[i, h, w, f]
                         )
@@ -53,7 +54,8 @@ def pool_backward(dA, A_prev, kernel_shape, stride=(1, 1), mode='max'):
                     elif mode == 'avg':
                         # Cari qradiyent dəyəri
                         da = dA[i, h, w, f]
-                        # Qradiyent pəncərədəki bütün elementlərə bərabər bölünür
+                        # Qradiyent pəncərədəki
+                        # bütün elementlərə bərabər bölünür
                         average_value = da / (kh * kw)
                         dA_prev[i, v_start:v_end, h_start:h_end, f] += (
                             np.ones((kh, kw)) * average_value
