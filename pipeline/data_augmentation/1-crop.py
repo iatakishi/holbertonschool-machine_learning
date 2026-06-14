@@ -11,7 +11,8 @@ def crop_image(image, size):
 
     Args:
         image: A 3D tf.Tensor containing the image to crop.
-        size: A tuple containing the size of the crop (height, width, channels).
+        size: A tuple containing the
+        size of the crop (height, width, channels).
 
     Returns:
         The randomly cropped image tensor.
