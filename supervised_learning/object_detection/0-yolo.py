@@ -13,16 +13,6 @@ class Yolo:
     def __init__(self, model_path, classes_path, class_t, nms_t, anchors):
         """
         Yolo sinfinin konstruktoru.
-
-        Args:
-            model_path (str): Keras Darknet modelinin saxlanıldığı yol.
-            classes_path (str):
-            Model tərəfindən istifadə olunan sinif adlarının
-            indeks sırası ilə saxlanıldığı faylın yolu.
-            class_t (float): İlkin süzgəcləmə (filtering) üçün qutu skoru hədli.
-            nms_t (float): Non-max suppression üçün IoU hədli.
-            anchors (numpy.ndarray): Bütün lövbər qutularını (anchor boxes)
-                                     özündə saxlayan massiv.
         """
         # Darknet Keras modelini yükləyirik
         self.model = tf.keras.models.load_model(model_path, compile=False)
