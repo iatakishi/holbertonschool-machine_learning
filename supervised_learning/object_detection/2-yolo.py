@@ -81,21 +81,14 @@ class Yolo:
     def filter_boxes(self, boxes, box_confidences, box_class_probs):
         """
         Filters boundary boxes by box scores threshold.
-
-        Args:
-            boxes (list): numpy.ndarrays containing processed boundary boxes.
-            box_confidences (list): numpy.ndarrays containing box confidences.
-            box_class_probs (list): numpy.ndarrays containing class probabilities.
-
-        Returns:
-            tuple: (filtered_boxes, box_classes, box_scores)
         """
         filtered_boxes = []
         box_classes = []
         box_scores = []
 
         for i in range(len(boxes)):
-            # Calculate total scores by multiplying confidence and probabilities
+            # Calculate total scores by
+            # multiplying confidence and probabilities
             # shape: (grid_height, grid_width, anchor_boxes, classes)
             scores = box_confidences[i] * box_class_probs[i]
 
@@ -107,7 +100,8 @@ class Yolo:
             # shape: (grid_height, grid_width, anchor_boxes)
             scores_max = np.max(scores, axis=-1)
 
-            # Create a boolean mask where scores are greater than or equal to threshold
+            # Create a boolean mask where
+            # scores are greater than or equal to threshold
             filtering_mask = scores_max >= self.class_t
 
             # Filter and append data that satisfies the threshold condition
@@ -115,7 +109,8 @@ class Yolo:
             box_classes.append(classes[filtering_mask])
             box_scores.append(scores_max[filtering_mask])
 
-        # Concatenate lists of arrays into a single flat numpy array for each
+        # Concatenate lists of arrays
+        # into a single flat numpy array for each
         filtered_boxes = np.concatenate(filtered_boxes, axis=0)
         box_classes = np.concatenate(box_classes, axis=0)
         box_scores = np.concatenate(box_scores, axis=0)
