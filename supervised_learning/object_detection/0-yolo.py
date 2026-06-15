@@ -16,8 +16,9 @@ class Yolo:
 
         Args:
             model_path (str): Keras Darknet modelinin saxlanıldığı yol.
-            classes_path (str): Model tərəfindən istifadə olunan sinif adlarının
-                                indeks sırası ilə saxlanıldığı faylın yolu.
+            classes_path (str):
+            Model tərəfindən istifadə olunan sinif adlarının
+            indeks sırası ilə saxlanıldığı faylın yolu.
             class_t (float): İlkin süzgəcləmə (filtering) üçün qutu skoru hədli.
             nms_t (float): Non-max suppression üçün IoU hədli.
             anchors (numpy.ndarray): Bütün lövbər qutularını (anchor boxes)
