@@ -265,5 +265,6 @@ class NST:
                 clipped_image = tf.clip_by_value(generated_image, 0.0, 1.0)
                 generated_image.assign(clipped_image)
 
-        # best_image[0] olaraq qaytarılır çünki imshow() 4D array (1, h, w, 3) dəstəkləmir.
+        # best_image[0] olaraq qaytarılır
+        # çünki imshow() 4D array (1, h, w, 3) dəstəkləmir.
         return best_image[0], best_cost
