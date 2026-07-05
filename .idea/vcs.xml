@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/holbertonschool-higher_level_programming" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/holbertonschool-machine_learning" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/holbertonschool-python-coding" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/holbertonschool-shell" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/holbertonschool-unix" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/holbertonschool-web_back_end" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/holbertonschool-zero_day" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/unsupervised_learning/dimensionality_reduction" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/unsupervised_learning/dimensionality_reduction/holbertonschool-machine_learning" vcs="Git" />
+  </component>
+</project>
