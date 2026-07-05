@@ -9,7 +9,7 @@ class NST:
     """Class that performs tasks for neural style transfer"""
 
     style_layers = ['block1_conv1', 'block2_conv1', 'block3_conv1',
-                     'block4_conv1', 'block5_conv1']
+                    'block4_conv1', 'block5_conv1']
     content_layer = 'block5_conv2'
 
     def __init__(self, style_image, content_image, alpha=1e4, beta=1):
@@ -118,7 +118,7 @@ class NST:
             raise TypeError('input_layer must be a tensor of rank 4')
 
         result = tf.linalg.einsum('bijc,bijd->bcd',
-                                   input_layer, input_layer)
+                                  input_layer, input_layer)
         input_shape = tf.shape(input_layer)
         num_locations = tf.cast(input_shape[1] * input_shape[2],
                                 tf.float32)
