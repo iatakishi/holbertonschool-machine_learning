@@ -25,16 +25,15 @@ def pca(X, var=0.95):
     # X matrisi üzərində SVD tətbiq edirik
     u, s, vh = np.linalg.svd(X)
 
-    # Hər bir komponentin datasetin nə qədər
-    # dispersiyasını izah etdiyini tapırıq
-    # Sinqulyar dəyərlərin (s) kvadratı həmin
-    # komponentin dispersiyasına bərabərdir
-    cum_var = np.cumsum(s ** 2) / np.sum(s ** 2)
+    # Kümülatif sinqulyar dəyərlər cəmini
+    # (dispersiya deyil, sinqulyar dəyərlərin özünü) izləyirik
+    cum_var = np.cumsum(s)
 
-    # Kümülatif dispersiya verilmiş
-    # `var` həddinə çatana (və ya keçənə) qədər
-    # olan minimum komponent sayını (nd) tapırıq
-    nd = np.argwhere(cum_var >= var)[0, 0] + 1
+    # Kümülatif nisbət verilmiş `var` həddinə
+    # çatana (və ya keçənə) qədər olan minimum
+    # komponent sayını (nd) tapırıq
+    threshold = var * cum_var[-1]
+    nd = np.argwhere(cum_var >= threshold)[0, 0] + 1
 
     # Çəki matrisi `W` əsas komponentləri
     # (V^T -in sətirləri) götürüb sütunlara (T) çevirməklə formalaşır.
