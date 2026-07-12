@@ -80,7 +80,8 @@ class BayesianOptimization:
 
     def optimize(self, iterations=100):
         """
-        Optimizes the black-box function by continuously proposing and evaluating
+        Optimizes the black-box function
+        by continuously proposing and evaluating
         new points until reaching the maximum iterations or a duplicated point.
 
         Args:
@@ -88,7 +89,8 @@ class BayesianOptimization:
 
         Returns:
             X_opt, Y_opt
-            - X_opt is a numpy.ndarray of shape (1,) representing the optimal point
+            - X_opt is a numpy.ndarray of shape (1,)
+            representing the optimal point
             - Y_opt is a numpy.ndarray of shape (1,) representing the optimal
               function value
         """
