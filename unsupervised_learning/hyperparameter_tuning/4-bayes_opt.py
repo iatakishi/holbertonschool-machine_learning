@@ -69,9 +69,10 @@ class BayesianOptimization:
 
         Z[mask] = imp[mask] / sigma[mask]
 
-        # FIX: Move the '+' operator to the start of the new line
-        EI[mask] = (imp[mask] * norm.cdf(Z[mask])
-                    + sigma[mask] * norm.pdf(Z[mask]))
+        # Split calculation to bypass W503, W504, and E501 strictness entirely
+        term1 = imp[mask] * norm.cdf(Z[mask])
+        term2 = sigma[mask] * norm.pdf(Z[mask])
+        EI[mask] = term1 + term2
 
         X_next = self.X_s[np.argmax(EI)]
 
