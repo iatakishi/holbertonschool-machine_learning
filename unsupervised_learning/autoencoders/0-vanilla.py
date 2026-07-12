@@ -2,7 +2,7 @@
 """
 Vanilla Autoencoder module
 """
-import tensorflow as tf
+import tensorflow.keras as keras
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
@@ -19,32 +19,31 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
         encoder, decoder, auto
     """
     # --- ENCODER MODEL ---
-    encoder_input = tf.keras.Input(shape=(input_dims,))
+    encoder_input = keras.Input(shape=(input_dims,))
 
     x = encoder_input
     for nodes in hidden_layers:
-        x = tf.keras.layers.Dense(nodes, activation='relu')(x)
+        x = keras.layers.Dense(nodes, activation='relu')(x)
 
-    latent_output = tf.keras.layers.Dense(latent_dims, activation='relu')(x)
-    encoder = tf.keras.Model(encoder_input, latent_output, name='encoder')
+    latent_output = keras.layers.Dense(latent_dims, activation='relu')(x)
+    encoder = keras.Model(encoder_input, latent_output, name='encoder')
 
     # --- DECODER MODEL ---
-    decoder_input = tf.keras.Input(shape=(latent_dims,))
+    decoder_input = keras.Input(shape=(latent_dims,))
 
     x = decoder_input
-    # Reverse the hidden layers order for symmetric expansion
     for nodes in reversed(hidden_layers):
-        x = tf.keras.layers.Dense(nodes, activation='relu')(x)
+        x = keras.layers.Dense(nodes, activation='relu')(x)
 
-    decoder_output = tf.keras.layers.Dense(
+    decoder_output = keras.layers.Dense(
         input_dims,
         activation='sigmoid'
     )(x)
-    decoder = tf.keras.Model(decoder_input, decoder_output, name='decoder')
+    decoder = keras.Model(decoder_input, decoder_output, name='decoder')
 
     # --- FULL AUTOENCODER MODEL ---
     auto_output = decoder(encoder(encoder_input))
-    auto = tf.keras.Model(encoder_input, auto_output, name='autoencoder')
+    auto = keras.Model(encoder_input, auto_output, name='autoencoder')
 
     # Compile full network
     auto.compile(optimizer='adam', loss='binary_crossentropy')
