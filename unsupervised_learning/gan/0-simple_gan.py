@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+""" simple gan """
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
@@ -5,9 +7,10 @@ import matplotlib.pyplot as plt
 
 
 class Simple_GAN(keras.Model):
-
+    """ simple gan """
     def __init__(self, generator, discriminator, latent_generator, real_examples, batch_size=200, disc_iter=2,
                  learning_rate=.005):
+        """ simple gan """
         super().__init__()  # run the __init__ of keras.Model first.
         self.latent_generator = latent_generator
         self.real_examples = real_examples
@@ -35,12 +38,14 @@ class Simple_GAN(keras.Model):
 
     # generator of fake samples of size batch_size
     def get_fake_sample(self, size=None, training=False):
+        """ simple gan """
         if not size:
             size = self.batch_size
         return self.generator(self.latent_generator(size), training=training)
 
     # generator of real samples of size batch_size
     def get_real_sample(self, size=None):
+        """ simple gan """
         if not size:
             size = self.batch_size
         sorted_indices = tf.range(tf.shape(self.real_examples)[0])
@@ -49,7 +54,7 @@ class Simple_GAN(keras.Model):
 
     # overloading train_step()
     def train_step(self, useless_argument):
-
+        """ simple gan """
         # 1. Train the Discriminator
         for _ in range(self.disc_iter):
             with tf.GradientTape() as disc_tape:
