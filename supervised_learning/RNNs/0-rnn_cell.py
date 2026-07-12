@@ -20,7 +20,8 @@ class RNNCell:
         o is the dimensionality of the outputs
         """
         # Wh is for the concatenated hidden state and input data
-        # Since we concatenate h_prev (shape m, h) and x_t (shape m, i) along axis 1
+        # Since we concatenate h_prev (shape m, h)
+        # and x_t (shape m, i) along axis 1
         # the concatenated shape is (m, h + i). Thus, Wh needs shape (h + i, h)
         self.Wh = np.random.randn(h + i, h)
 
@@ -36,8 +37,10 @@ class RNNCell:
         Performs forward propagation for one time step
 
         Parameters:
-        h_prev is a numpy.ndarray of shape (m, h) containing the previous hidden state
-        x_t is a numpy.ndarray of shape (m, i) containing the data input for the cell
+        h_prev is a numpy.ndarray of shape (m, h)
+        containing the previous hidden state
+        x_t is a numpy.ndarray of shape (m, i)
+        containing the data input for the cell
             m is the batch size for the data
 
         Returns: h_next, y
