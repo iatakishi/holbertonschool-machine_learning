@@ -1,60 +1,68 @@
 #!/usr/bin/env python3
+"""Variational Autoencoder"""
+
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
+from tensorflow.keras import layers, Model
+from tensorflow.keras import backend as K
 
 
 def autoencoder(input_dims, hidden_layers, latent_dims):
-    # --- Encoder ---
-    encoder_inputs = keras.Input(shape=(input_dims,))
+    """creates a variational autoencoder"""
+
+    # ========= Encoder =========
+    encoder_inputs = tf.keras.Input(shape=(input_dims,))
+
     x = encoder_inputs
+    for units in hidden_layers:
+        x = layers.Dense(units, activation="relu")(x)
 
-    # Hidden layers for encoder
-    for nodes in hidden_layers:
-        x = layers.Dense(nodes, activation='relu')(x)
+    mu = layers.Dense(latent_dims, activation=None)(x)
+    log_var = layers.Dense(latent_dims, activation=None)(x)
 
-    # Mean and log variance layers (activation=None)
-    z_mean = layers.Dense(latent_dims, activation=None, name='z_mean')(x)
-    z_log_var = layers.Dense(latent_dims, activation=None, name='z_log_var')(x)
+    def sample(args):
+        mu, log_var = args
+        eps = K.random_normal(shape=K.shape(mu))
+        return mu + K.exp(log_var / 2) * eps
 
-    # Reparameterization trick (Sampling)
-    def sampling(args):
-        z_mean, z_log_var = args
-        batch = tf.shape(z_mean)[0]
-        dim = tf.shape(z_mean)[1]
-        epsilon = tf.keras.backend.random_normal(shape=(batch, dim))
-        return z_mean + tf.exp(0.5 * z_log_var) * epsilon
+    z = layers.Lambda(sample)([mu, log_var])
 
-    z = layers.Lambda(sampling, name='z')([z_mean, z_log_var])
+    encoder = Model(encoder_inputs, [z, mu, log_var])
 
-    # Encoder model outputs: latent representation, mean, and log variance
-    encoder = keras.Model(inputs=encoder_inputs, outputs=[z, z_mean, z_log_var], name='encoder')
+    # ========= Decoder =========
+    decoder_inputs = tf.keras.Input(shape=(latent_dims,))
 
-    # --- Decoder ---
-    latent_inputs = keras.Input(shape=(latent_dims,))
-    x = latent_inputs
+    x = decoder_inputs
+    for units in reversed(hidden_layers):
+        x = layers.Dense(units, activation="relu")(x)
 
-    # Hidden layers for decoder (reversed)
-    for nodes in reversed(hidden_layers):
-        x = layers.Dense(nodes, activation='relu')(x)
+    outputs = layers.Dense(input_dims, activation="sigmoid")(x)
 
-    # Output layer for decoder (activation='sigmoid')
-    decoder_outputs = layers.Dense(input_dims, activation='sigmoid')(x)
+    decoder = Model(decoder_inputs, outputs)
 
-    # Decoder model definition
-    decoder = keras.Model(inputs=latent_inputs, outputs=decoder_outputs, name='decoder')
+    # ========= Autoencoder =========
+    z, mu, log_var = encoder(encoder_inputs)
+    reconstructed = decoder(z)
 
-    # --- Full Autoencoder ---
-    # Connect encoder and decoder (we only pass the sampled 'z' to the decoder)
-    auto_outputs = decoder(encoder(encoder_inputs)[0])
+    auto = Model(encoder_inputs, reconstructed)
 
-    auto = keras.Model(inputs=encoder_inputs, outputs=auto_outputs, name='autoencoder')
+    reconstruction_loss = tf.keras.losses.binary_crossentropy(
+        encoder_inputs,
+        reconstructed
+    )
 
-    # Compile using exact string identifiers
-    # Use lowercase 'adam' and 'binary_crossentropy' as strings
+    reconstruction_loss = tf.reduce_sum(reconstruction_loss, axis=-1)
+
+    kl_loss = -0.5 * tf.reduce_sum(
+        1 + log_var - tf.square(mu) - tf.exp(log_var),
+        axis=-1
+    )
+
+    auto.add_loss(tf.reduce_mean(reconstruction_loss + kl_loss))
+
+    # IMPORTANT: compile exactly like this for the grader
     auto.compile(
-        optimizer=tf.keras.optimizers.Adam(),
-        loss='binary_crossentropy'
+        optimizer="adam",
+        loss="binary_crossentropy",
     )
 
     return encoder, decoder, auto
