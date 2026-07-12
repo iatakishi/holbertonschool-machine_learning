@@ -2,7 +2,7 @@
 """
 Word2Vec Model Module
 """
-from gensim.models import Word2Vec
+import gensim
 
 
 def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
@@ -29,9 +29,8 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
     # sg = 1 for Skip-gram, sg = 0 for CBOW
     sg = 0 if cbow else 1
 
-    # Initialize and train the Word2Vec model
-    # Note: Gensim 4.0+ uses 'vector_size' and 'epochs'.
-    model = Word2Vec(
+    # Initialize and train the Word2Vec model using the full namespace
+    model = gensim.models.Word2Vec(
         sentences=sentences,
         vector_size=vector_size,
         min_count=min_count,
