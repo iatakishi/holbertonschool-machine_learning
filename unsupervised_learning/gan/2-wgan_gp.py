@@ -138,4 +138,5 @@ class WGAN_GP(keras.Model):
         self.generator.optimizer.apply_gradients(
             zip(gen_gradients, gen_vars))
 
-        return {"discr_loss": new_discr_loss, "gen_loss": gen_loss, "gp": gp}
+        # Fix: returning discr_loss instead of new_discr_loss
+        return {"discr_loss": discr_loss, "gen_loss": gen_loss, "gp": gp}
