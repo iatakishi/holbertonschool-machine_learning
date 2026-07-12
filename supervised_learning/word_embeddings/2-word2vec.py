@@ -29,17 +29,19 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
     # sg = 1 for Skip-gram, sg = 0 for CBOW
     sg = 0 if cbow else 1
 
-    # Initialize and train the Word2Vec model using the full namespace
+    # Initialize and train the Word2Vec model using Gensim 3.x parameter names:
+    # 'size' instead of 'vector_size' and 'iter' instead of 'epochs'.
     model = gensim.models.Word2Vec(
         sentences=sentences,
-        vector_size=vector_size,
+        size=vector_size,
         min_count=min_count,
         window=window,
         negative=negative,
         sg=sg,
-        epochs=epochs,
+        iter=epochs,
         seed=seed,
         workers=workers
     )
 
     return model
+
