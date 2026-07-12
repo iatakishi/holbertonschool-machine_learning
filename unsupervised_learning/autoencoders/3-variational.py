@@ -20,6 +20,7 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
     log_var = layers.Dense(latent_dims, activation=None)(x)
 
     def sample(args):
+        """ sample """
         mu, log_var = args
         eps = K.random_normal(shape=K.shape(mu))
         return mu + K.exp(log_var / 2) * eps
