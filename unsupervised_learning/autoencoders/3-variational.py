@@ -61,8 +61,8 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
 
     # IMPORTANT: compile exactly like this for the grader
     auto.compile(
-        optimizer="adam",
-        loss="binary_crossentropy",
+        optimizer='adam',
+        loss=tf.keras.losses.binary_crossentropy
     )
 
     return encoder, decoder, auto
