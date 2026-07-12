@@ -25,23 +25,27 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
     Returns:
         The trained Word2Vec model.
     """
-    # Determine the training algorithm based on the cbow boolean
+
+    # Define a deterministic hash function for exact reproducibility
+    # across different Python runs, ensuring the seed test passes.
+    def hashfxn(x):
+        return int(gensim.utils.hash32(x))
+
     # sg = 1 for Skip-gram, sg = 0 for CBOW
     sg = 0 if cbow else 1
 
-    # Initialize and train the Word2Vec model using Gensim 3.x parameter names:
-    # 'size' instead of 'vector_size' and 'iter' instead of 'epochs'.
+    # Initialize and train the Word2Vec model using Gensim 4.x parameters
     model = gensim.models.Word2Vec(
         sentences=sentences,
-        size=vector_size,
+        vector_size=vector_size,
         min_count=min_count,
         window=window,
         negative=negative,
         sg=sg,
-        iter=epochs,
+        epochs=epochs,
         seed=seed,
-        workers=workers
+        workers=workers,
+        hashfxn=hashfxn
     )
 
     return model
-
