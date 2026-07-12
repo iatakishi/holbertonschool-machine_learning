@@ -53,10 +53,8 @@ class BayesianOptimization:
             - EI is a numpy.ndarray of shape (ac_samples,) containing the
               expected improvement of each potential sample
         """
-        # Get the mean and standard deviation predictions for the sample points
         mu, sigma = self.gp.predict(self.X_s)
 
-        # Determine the current optimal value depending on minimize/maximize
         if self.minimize:
             Y_opt = np.min(self.gp.Y)
             imp = Y_opt - mu - self.xsi
@@ -64,19 +62,17 @@ class BayesianOptimization:
             Y_opt = np.max(self.gp.Y)
             imp = mu - Y_opt - self.xsi
 
-        # Initialize the Z and EI arrays
         Z = np.zeros(sigma.shape)
         EI = np.zeros(sigma.shape)
 
-        # Prevent division by zero where variance is 0
         mask = sigma > 0
 
-        # Calculate Z and Expected Improvement (EI)
         Z[mask] = imp[mask] / sigma[mask]
-        EI[mask] = (imp[mask] * norm.cdf(Z[mask]) +
-                    sigma[mask] * norm.pdf(Z[mask]))
 
-        # The next sample point is the one that maximizes Expected Improvement
+        # FIX: Move the '+' operator to the start of the new line
+        EI[mask] = (imp[mask] * norm.cdf(Z[mask])
+                    + sigma[mask] * norm.pdf(Z[mask]))
+
         X_next = self.X_s[np.argmax(EI)]
 
         return X_next, EI
