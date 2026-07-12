@@ -42,7 +42,8 @@ class WGAN_clip(keras.Model):
         # define the discriminator loss and optimizer:
         # Critic minimizes: mean(fake_preds) - mean(real_preds)
         self.discriminator.loss = lambda real_preds, fake_preds: (
-                tf.math.reduce_mean(fake_preds) - tf.math.reduce_mean(real_preds))
+                tf.math.reduce_mean(fake_preds)
+                - tf.math.reduce_mean(real_preds))
 
         self.discriminator.optimizer = keras.optimizers.Adam(
             learning_rate=self.learning_rate,
