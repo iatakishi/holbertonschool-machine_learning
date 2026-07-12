@@ -3,8 +3,9 @@
 import gensim
 
 
-def word2vec_model(sentences, vector_size=100, min_count=5, window=5, negative=5, cbow=True, epochs=5, seed=0,
-                   workers=1):
+def word2vec_model(sentences, vector_size=100, min_count=5,
+                   window=5, negative=5, cbow=True,
+                   epochs=5, seed=0, workers=1):
     """
     Creates, builds and trains a gensim word2vec model.
 
@@ -12,7 +13,8 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5, negative=5
     sentences (list): list of sentences to be trained on
     vector_size (int): dimensionality of the embedding layer
     min_count (int): minimum number of occurrences of a word for use in training
-    window (int): maximum distance between the current and predicted word within a sentence
+    window (int): maximum distance between the current
+    and predicted word within a sentence
     negative (int): size of negative sampling
     cbow (bool): True for CBOW, False for Skip-gram
     epochs (int): number of iterations to train over
@@ -25,10 +27,9 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5, negative=5
     # In gensim, sg=0 is CBOW and sg=1 is Skip-gram
     sg = 0 if cbow else 1
 
-    import gensim
     # Handle differences between gensim 3.x and 4.x
     if gensim.__version__.startswith('3.'):
-        model = Word2Vec(
+        model = gensim.models.Word2Vec(
             sentences=sentences,
             size=vector_size,
             min_count=min_count,
@@ -40,7 +41,7 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5, negative=5
             workers=workers
         )
     else:
-        model = Word2Vec(
+        model = gensim.models.Word2Vec(
             sentences=sentences,
             vector_size=vector_size,
             min_count=min_count,
