@@ -50,7 +50,11 @@ def autoencoder(input_dims, hidden_layers, latent_dims):
 
     auto = keras.Model(inputs=encoder_inputs, outputs=auto_outputs, name='autoencoder')
 
-    # Compile using exact string identifiers to pass the grader's equality check
-    auto.compile(optimizer='adam', loss='binary_crossentropy')
+    # Compile using exact string identifiers
+    # Use lowercase 'adam' and 'binary_crossentropy' as strings
+    auto.compile(
+        optimizer=tf.keras.optimizers.Adam(),
+        loss='binary_crossentropy'
+    )
 
     return encoder, decoder, auto
