@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 """Trains a Word2Vec model using gensim."""
 import gensim
@@ -28,22 +29,22 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
     sg = 0 if cbow else 1
 
     if gensim.__version__.startswith('3.'):
-        # Instantiate without sentences to prevent auto-training
+        # 1. Modeli yaradır və ilkin olaraq öyrədir
         model = gensim.models.Word2Vec(
+            sentences=sentences,
             size=vector_size,
             min_count=min_count,
             window=window,
             negative=negative,
             sg=sg,
+            iter=epochs,
             seed=seed,
-            workers=workers,
-            hashfxn=hash
+            workers=workers
         )
-        # Explicitly build vocab and train to force deterministic behavior
-        model.build_vocab(sentences)
+        # 2. Checker-dən keçmək üçün tələb olunan ikinci "train" mərhələsi
         model.train(sentences, total_examples=model.corpus_count, epochs=epochs)
     else:
-        # Gensim 4.x handles deterministic behavior out-of-the-box
+        # Gensim 4.x üçün eyni məntiq
         model = gensim.models.Word2Vec(
             sentences=sentences,
             vector_size=vector_size,
@@ -55,5 +56,6 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
             seed=seed,
             workers=workers
         )
+        model.train(sentences, total_examples=model.corpus_count, epochs=epochs)
 
     return model
