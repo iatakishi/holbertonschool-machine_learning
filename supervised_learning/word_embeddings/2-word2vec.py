@@ -4,8 +4,8 @@ import gensim
 
 
 def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
-                    negative=5, cbow=True, epochs=5, seed=0,
-                    workers=1):
+                   negative=5, cbow=True, epochs=5, seed=0,
+                   workers=1):
     """
     Creates, builds and trains a gensim word2vec model.
 
@@ -28,18 +28,22 @@ def word2vec_model(sentences, vector_size=100, min_count=5, window=5,
     sg = 0 if cbow else 1
 
     if gensim.__version__.startswith('3.'):
+        # Instantiate without sentences to prevent auto-training
         model = gensim.models.Word2Vec(
-            sentences=sentences,
             size=vector_size,
             min_count=min_count,
             window=window,
             negative=negative,
             sg=sg,
-            iter=epochs,
             seed=seed,
-            workers=workers
+            workers=workers,
+            hashfxn=hash
         )
+        # Explicitly build vocab and train to force deterministic behavior
+        model.build_vocab(sentences)
+        model.train(sentences, total_examples=model.corpus_count, epochs=epochs)
     else:
+        # Gensim 4.x handles deterministic behavior out-of-the-box
         model = gensim.models.Word2Vec(
             sentences=sentences,
             vector_size=vector_size,
