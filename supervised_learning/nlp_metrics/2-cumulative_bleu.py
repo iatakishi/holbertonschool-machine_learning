@@ -27,7 +27,7 @@ def cumulative_bleu(references, sentence, n):
         """Computes the clipped n-gram precision for a given n-gram size"""
         sentence_ngrams = get_ngrams(sentence, size)
         reference_ngrams = [get_ngrams(reference, size)
-                             for reference in references]
+                            for reference in references]
 
         ngram_counts = {}
         for ngram in sentence_ngrams:
