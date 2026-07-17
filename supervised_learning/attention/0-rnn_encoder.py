@@ -22,7 +22,7 @@ class RNNEncoder(tf.keras.layers.Layer):
         self.batch = batch
         self.units = units
         self.embedding = tf.keras.layers.Embedding(input_dim=vocab,
-                                                     output_dim=embedding)
+                                                   output_dim=embedding)
         self.gru = tf.keras.layers.GRU(
             units,
             return_sequences=True,
