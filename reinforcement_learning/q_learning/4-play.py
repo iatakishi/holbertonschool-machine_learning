@@ -3,15 +3,6 @@
 
 import numpy as np
 
-try:
-    import gymnasium as gym
-
-    _IS_GYMNASIUM = True
-except ImportError:
-    import gym
-
-    _IS_GYMNASIUM = False
-
 
 def play(env, Q, max_steps=100):
     """
@@ -20,48 +11,47 @@ def play(env, Q, max_steps=100):
     Args:
         env: The FrozenLakeEnv instance.
         Q (numpy.ndarray): The Q-table.
-        max_steps (int, optional): Maximum number of
-        steps in the episode. Defaults to 100.
+        max_steps (int, optional): Maximum number of steps in the episode. Defaults to 100.
 
     Returns:
         tuple: (total_rewards, rendered_outputs)
     """
     # Handle both gym (returns state) and gymnasium (returns state, info)
-    reset_output = env.reset()
-    if isinstance(reset_output, tuple):
-        state = reset_output[0]
+    reset_out = env.reset()
+    if isinstance(reset_out, tuple):
+        state = reset_out[0]
     else:
-        state = reset_output
+        state = reset_out
 
     total_rewards = 0
     rendered_outputs = []
 
-    # Handle rendering differences
-    if _IS_GYMNASIUM:
-        rendered_outputs.append(env.render())
-    else:
-        rendered_outputs.append(env.render(mode='ansi'))
+    # Handle rendering differences: gym returns None for default render,
+    # while gymnasium returns the string if render_mode="ansi" is set.
+    out = env.render()
+    if out is None:
+        out = env.render(mode='ansi')
+    rendered_outputs.append(out)
 
-    for step in range(max_steps):
+    for _ in range(max_steps):
         action = np.argmax(Q[state])
+        step_out = env.step(action)
 
-        # Handle step output differences
-        step_output = env.step(action)
-        if len(step_output) == 5:
-            next_state, reward, terminated, truncated, info = step_output
+        # Handle step output differences between gym (4 items) and gymnasium (5 items)
+        if len(step_out) == 5:
+            next_state, reward, terminated, truncated, info = step_out
             done = terminated or truncated
         else:
-            next_state, reward, done, info = step_output
+            next_state, reward, done, info = step_out
 
         total_rewards += reward
 
-        if _IS_GYMNASIUM:
-            rendered_outputs.append(env.render())
-        else:
-            rendered_outputs.append(env.render(mode='ansi'))
+        out = env.render()
+        if out is None:
+            out = env.render(mode='ansi')
+        rendered_outputs.append(out)
 
         state = next_state
-
         if done:
             break
 

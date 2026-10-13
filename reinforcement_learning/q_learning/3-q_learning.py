@@ -3,15 +3,6 @@
 
 import numpy as np
 
-try:
-    import gymnasium as gym
-
-    _IS_GYMNASIUM = True
-except ImportError:
-    import gym
-
-    _IS_GYMNASIUM = False
-
 epsilon_greedy = __import__('2-epsilon_greedy').epsilon_greedy
 
 
@@ -23,25 +14,27 @@ def train(env, Q, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99,
     total_rewards = []
 
     for episode in range(episodes):
-        reset_output = env.reset()
-        if isinstance(reset_output, tuple):
-            state = reset_output[0]
+        # Handle reset output differences
+        reset_out = env.reset()
+        if isinstance(reset_out, tuple):
+            state = reset_out[0]
         else:
-            state = reset_output
+            state = reset_out
 
         episode_reward = 0
 
         for step in range(max_steps):
             action = epsilon_greedy(Q, state, epsilon)
 
-            step_output = env.step(action)
-            if len(step_output) == 5:
-                next_state, reward, terminated, truncated, info = step_output
+            # Handle step output differences
+            step_out = env.step(action)
+            if len(step_out) == 5:
+                next_state, reward, terminated, truncated, info = step_out
                 done = terminated or truncated
             else:
-                next_state, reward, done, info = step_output
+                next_state, reward, done, info = step_out
 
-            # Check if the agent fell into a hole and update the reward to -1
+            # Check if the agent fell into a hole
             if hasattr(env, 'unwrapped'):
                 desc = env.unwrapped.desc
                 ncols = env.unwrapped.ncols
