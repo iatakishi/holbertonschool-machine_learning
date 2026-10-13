@@ -26,5 +26,6 @@ def epsilon_greedy(Q, state, epsilon):
         # Explore: pick a random action
         return np.random.randint(n_actions)
     else:
-        # Exploit: pick the action with the highest Q-value for the current state
+        # Exploit: pick the action with the highest
+        # Q-value for the current state
         return np.argmax(Q[state])

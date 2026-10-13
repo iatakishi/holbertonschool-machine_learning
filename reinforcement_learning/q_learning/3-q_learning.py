@@ -15,13 +15,18 @@ def train(env, Q, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99,
     Args:
         env: The FrozenLakeEnv instance.
         Q (numpy.ndarray): The Q-table.
-        episodes (int, optional): Total number of episodes. Defaults to 5000.
-        max_steps (int, optional): Maximum number of steps per episode. Defaults to 100.
+        episodes (int, optional): Total number of episodes.
+        Defaults to 5000.
+        max_steps (int, optional): Maximum number of steps
+        per episode. Defaults to 100.
         alpha (float, optional): Learning rate. Defaults to 0.1.
         gamma (float, optional): Discount rate. Defaults to 0.99.
-        epsilon (float, optional): Initial threshold for epsilon greedy. Defaults to 1.
-        min_epsilon (float, optional): Minimum value for epsilon. Defaults to 0.1.
-        epsilon_decay (float, optional): Decay rate for epsilon. Defaults to 0.05.
+        epsilon (float, optional): Initial threshold for epsilon
+        greedy. Defaults to 1.
+        min_epsilon (float, optional): Minimum value for epsilon.
+        Defaults to 0.1.
+        epsilon_decay (float, optional): Decay rate for epsilon.
+        Defaults to 0.05.
 
     Returns:
         tuple: (Q, total_rewards)
