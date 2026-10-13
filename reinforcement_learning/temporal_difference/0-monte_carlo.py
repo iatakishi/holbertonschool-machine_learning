@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Module to perform the Monte Carlo algorithm."""
 
+import numpy as np
+
 
 def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0.99):
     """
@@ -49,6 +51,7 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0
         G = 0
         for t in reversed(range(len(episode))):
             state_t, reward_t = episode[t]
+            # Ensure the multiplication operators (*) are present
             G = reward_t + gamma * G
             V[state_t] = V[state_t] + alpha * (G - V[state_t])
 
