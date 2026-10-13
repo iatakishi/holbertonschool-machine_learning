@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 """Module to initialize a Q-table for a given environment."""
 
 import numpy as np

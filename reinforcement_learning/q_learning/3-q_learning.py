@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 """Module to perform Q-learning on the FrozenLake environment."""
 
 import numpy as np

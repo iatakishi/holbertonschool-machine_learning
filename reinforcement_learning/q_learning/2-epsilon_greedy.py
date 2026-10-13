@@ -1,4 +1,4 @@
-# !/usr/bin/env python3
+#!/usr/bin/env python3
 """Module to determine the next action using the epsilon-greedy strategy."""
 
 import numpy as np
