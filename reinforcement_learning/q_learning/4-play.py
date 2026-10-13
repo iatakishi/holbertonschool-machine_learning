@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Module to play an episode using a trained Q-table."""
-
+"""
+Module for playing an episode using a trained Q-table.
+"""
 import numpy as np
 
 
@@ -10,49 +11,49 @@ def play(env, Q, max_steps=100):
 
     Args:
         env: The FrozenLakeEnv instance.
-        Q (numpy.ndarray): The Q-table.
-        max_steps (int, optional): Maximum number of steps in the episode. Defaults to 100.
+        Q: A numpy.ndarray containing the Q-table.
+        max_steps: The maximum number of steps in the episode.
 
     Returns:
-        tuple: (total_rewards, rendered_outputs)
+        The total rewards for the episode and a list of rendered outputs
+        representing the board state at each step.
     """
-    # Handle both gym (returns state) and gymnasium (returns state, info)
-    reset_out = env.reset()
-    if isinstance(reset_out, tuple):
-        state = reset_out[0]
+    # Reset the environment to start the episode
+    reset_result = env.reset()
+    # Handle compatibility between Gym and Gymnasium
+    if isinstance(reset_result, tuple):
+        state = reset_result[0]
     else:
-        state = reset_out
+        state = reset_result
 
-    total_rewards = 0
+    total_rewards = 0.0
     rendered_outputs = []
 
-    # Handle rendering differences: gym returns None for default render,
-    # while gymnasium returns the string if render_mode="ansi" is set.
-    out = env.render()
-    if out is None:
-        out = env.render(mode='ansi')
-    rendered_outputs.append(out)
+    # Append the initial state of the board
+    rendered_outputs.append(env.render())
 
     for _ in range(max_steps):
-        action = np.argmax(Q[state])
-        step_out = env.step(action)
+        # Exploit the Q-table to find the best action
+        action = np.argmax(Q[state, :])
 
-        # Handle step output differences between gym (4 items) and gymnasium (5 items)
-        if len(step_out) == 5:
-            next_state, reward, terminated, truncated, info = step_out
-            done = terminated or truncated
+        # Take the action
+        step_result = env.step(action)
+
+        # Handle compatibility between Gym and Gymnasium step return values
+        if len(step_result) == 4:
+            next_state, reward, done, info = step_result
         else:
-            next_state, reward, done, info = step_out
+            next_state, reward, terminated, truncated, info = step_result
+            done = terminated or truncated
 
         total_rewards += reward
 
-        out = env.render()
-        if out is None:
-            out = env.render(mode='ansi')
-        rendered_outputs.append(out)
+        # Append the new state of the board
+        rendered_outputs.append(env.render())
 
-        state = next_state
         if done:
             break
+
+        state = next_state
 
     return total_rewards, rendered_outputs
