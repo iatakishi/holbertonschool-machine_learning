@@ -47,12 +47,16 @@ def monte_carlo(env, V, policy, episodes=5000, max_steps=100, alpha=0.1, gamma=0
             if done:
                 break
 
-        # Calculate returns backwards and update V incrementally
+        # First-visit Monte Carlo update
         G = 0
+        seen = set()
         for t in reversed(range(len(episode))):
             state_t, reward_t = episode[t]
-            # Ensure the multiplication operators (*) are present
             G = reward_t + gamma * G
-            V[state_t] = V[state_t] + alpha * (G - V[state_t])
+
+            # Update only the first time we see this state in the episode
+            if state_t not in seen:
+                V[state_t] = V[state_t] + alpha * (G - V[state_t])
+                seen.add(state_t)
 
     return V
