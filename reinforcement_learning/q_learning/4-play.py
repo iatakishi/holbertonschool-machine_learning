@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Module for playing an episode using a trained Q-table.
+Module for having a trained agent play an episode in FrozenLake.
 """
 import numpy as np
 
@@ -18,42 +18,37 @@ def play(env, Q, max_steps=100):
         The total rewards for the episode and a list of rendered outputs
         representing the board state at each step.
     """
-    # Reset the environment to start the episode
-    reset_result = env.reset()
-    # Handle compatibility between Gym and Gymnasium
-    if isinstance(reset_result, tuple):
-        state = reset_result[0]
-    else:
-        state = reset_result
+    state = env.reset()
+    # Check if the returned state is a tuple (Gymnasium vs older Gym)
+    if isinstance(state, tuple):
+        state = state[0]
 
-    total_rewards = 0.0
     rendered_outputs = []
-
-    # Append the initial state of the board
+    # Capture the initial state of the board
     rendered_outputs.append(env.render())
 
+    total_rewards = 0
+
     for _ in range(max_steps):
-        # Exploit the Q-table to find the best action
+        # Exploit the Q-table to get the best action
         action = np.argmax(Q[state, :])
 
         # Take the action
         step_result = env.step(action)
 
-        # Handle compatibility between Gym and Gymnasium step return values
+        # Unpack based on Gym version (4 values for old Gym, 5 for Gymnasium)
         if len(step_result) == 4:
-            next_state, reward, done, info = step_result
+            state, reward, done, _ = step_result
         else:
-            next_state, reward, terminated, truncated, info = step_result
+            state, reward, terminated, truncated, _ = step_result
             done = terminated or truncated
 
         total_rewards += reward
 
-        # Append the new state of the board
+        # Capture the rendered state
         rendered_outputs.append(env.render())
 
         if done:
             break
-
-        state = next_state
 
     return total_rewards, rendered_outputs
